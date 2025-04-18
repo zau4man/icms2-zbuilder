@@ -33,6 +33,13 @@ class actionZbuilderBlockOptions extends cmsAction{
 
             }else{
 
+                //если есть имя блока, сохраним его отдельно
+                if(!empty($data['title'])){
+                    $this->model->saveBlockBind($id, [
+                        'title' => $data['title']
+                    ]);
+                    unset($data['title']);
+                }
                 $this->model->saveBlockBindOptions($id,$data);
 
                 return $this->cms_template->renderJSON([

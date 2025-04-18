@@ -15,8 +15,8 @@ function install_package() {
     }
 
     //обновление
-    $core->db->query("UPDATE `{#}controllers` SET `version` = '1.0.1' WHERE `name` = 'zbuilder';");
-    $core->db->query("UPDATE `{#}widgets` SET `version` = '1.0.1' WHERE `controller` = 'zbuilder' AND `name` = 'bind';");
+    $core->db->query("UPDATE `{#}controllers` SET `version` = '1.0.2' WHERE `name` = 'zbuilder';");
+    $core->db->query("UPDATE `{#}widgets` SET `version` = '1.0.2' WHERE `controller` = 'zbuilder' AND `name` = 'bind';");
 
     //доп. таблицы
     $core->db->query("CREATE TABLE IF NOT EXISTS `{#}zbuilder_blocks` (

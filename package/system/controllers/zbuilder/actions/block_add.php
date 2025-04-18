@@ -31,8 +31,22 @@ class actionZbuilderBlockAdd extends cmsAction{
 
             }else{
 
-                $data['ordering'] = $this->model->filterEqual('bind',$bind)->getNextOrdering('zbuilder_blocks_bind');
-                $this->model->addBlockBind($data);
+                $ordering = $this->model->filterEqual('bind',$bind)->getNextOrdering('zbuilder_blocks_bind');
+
+                //или создаем блок через образец
+                if(is_numeric($data['type'])){
+                    $block_bind = $this->model->getBlockBind($data['type'],true);
+                    $block_bind['ordering'] = $ordering;
+                    $this->copyBlock($block_bind, $bind);
+                }
+                //или создаем новый пустой блок в позиции
+                else{
+                    $data['ordering'] = $ordering;
+                    $this->model->addBlockBind($data);
+                }
+
+
+
 
                 return $this->cms_template->renderJSON([
                     'errors' => false,

@@ -12,8 +12,14 @@ class formZbuilderBlockAdd extends cmsForm {
                     new fieldList('type', [
                         'title' => 'Тип блока',
                         'generator' => function(){
-                            $types = cmsCore::getModel('zbuilder')->getAllowedBlocksTypes();
-                            return array_column($types,'title','type');
+                            $controller = cmsCore::getController('zbuilder');
+                            $types = $controller->model->getAllowedBlocksTypes();
+                            $items = array_column($types,'title','type');
+                            $named = $controller->getNamedBlocks();
+                            if($named){
+                                $items = $items + $named;
+                            }
+                            return $items;
                         }
                     ]),
                     new fieldHidden('bind')

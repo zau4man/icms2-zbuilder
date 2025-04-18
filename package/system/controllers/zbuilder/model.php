@@ -36,8 +36,15 @@ class modelZbuilder extends cmsModel {
     public function getBlockBind($bind_id) {
         return $this->getItemById('zbuilder_blocks_bind',$bind_id,function($item,$model){
             $item['options'] = cmsModel::yamlToArray($item['options']);
+            if(!empty($item['title'])){
+                $item['options']['title'] = $item['title'];
+            }
             return $item;
         });
+    }
+
+    public function saveBlockBind($bind_id, $data) {
+        return $this->update('zbuilder_blocks_bind',$bind_id,$data);
     }
 
     public function getElementsTypes() {

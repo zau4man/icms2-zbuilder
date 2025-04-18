@@ -9,6 +9,13 @@ class formZbuilderBlockOptions extends cmsForm {
                 'type' => 'fieldset',
                 'title' => 'Опции блока',
                 'childs' => [
+                    new fieldString('title', [
+                        'title' => 'Имя блока',
+                        'hint' => 'если дадите имя блоку, его можно будет выбрать как образец при добавлении нового блока<br>В новый добавленный блок будут скопированы все элементы из текущего',
+                        'rules' => [
+                            ['unique_exclude', 'zbuilder_blocks_bind', 'title', $block_bind['id']]
+                        ]
+                    ]),
                     new fieldList('tpl', [
                         'title' => 'Шаблон блока',
                         'hint' => 'из папки controllers/zbuilder/blocks',
