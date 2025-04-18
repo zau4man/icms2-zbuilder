@@ -144,6 +144,35 @@ icms.zbuilder = (function($){
             let element_id = element.attr('zbuilder-element-id');
             icms.modal.openAjax(_this.options.element_options_url + '/' + element_id);
         });
+        $('[zbuilder-main]').on('click','[zbuilder-element-copy]',function(e){
+            e.preventDefault();
+            let element = $(this).closest('[zbuilder-element]');
+            let element_id = element.attr('zbuilder-element-id');
+            let block = $(this).closest('[zbuilder-block]');
+            let block_id = block.attr('zbuilder-block-id');
+            if(!confirm('Вы уверены? Элемент будет скопирован и помещен ниже')){
+                return false;
+            }
+            $.get(_this.options.element_copy_url + '/' + element_id, {}, function(result){
+                if(result.success){
+                    toastr.success('Элемент успешно скопирован');
+                    _this.rerenderBlock(block_id);
+                }
+            },'json');
+        });
+        $('[zbuilder-main]').on('click','[zbuilder-block-copy]',function(e){
+            e.preventDefault();
+            let block = $(this).closest('[zbuilder-block]');
+            let block_id = block.attr('zbuilder-block-id');
+            if(!confirm('Вы уверены? Блок будет скопирован вместе со всеми элементами и помещен ниже')){
+                return false;
+            }
+            $.get(_this.options.block_copy_url + '/' + block_id, {}, function(result){
+                if(result.success){
+                    window.location.reload();
+                }
+            },'json');
+        });
     };
 
     this.rerenderElement = function(element_id){

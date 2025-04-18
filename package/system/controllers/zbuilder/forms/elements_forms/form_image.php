@@ -25,10 +25,7 @@ class formZbuilderImage extends cmsForm {
                     ]),
                     new fieldList('size_full', [
                         'hint' => 'размер при клике',
-                        'items' => $this->controller->getImagesPresets(),
-                        'rules' => [
-                            ['required']
-                        ]
+                        'items' => ['' => 'Отключить'] + $this->controller->getImagesPresets()
                     ]),
                     new fieldString('caption', [
                         'hint' => 'укажите подпись изображения при необходимости'

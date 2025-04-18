@@ -198,7 +198,7 @@ class zbuilder extends cmsFrontend {
     public function addEditorElementLayout($html,$element) {
         $class = $this->prepareElementClass($element);
         $style = $this->prepareElementStyle($element);
-        return '<div zbuilder-element zbuilder-element-id="'. $element['id'] .'" class="zb-element' . $class . '"' . $style . '><div zbuilder-element-content class="zb-element__content">' . $html . '</div><div zbuilder-element-panel class="zb-element__panel"><div zbuilder-element-move class="zb-element__move" title="Переместить элемент"></div><div zbuilder-element-options class="zb-element__options" title="Опции элемента"></div><div zbuilder-element-edit class="zb-element__edit" title="Редактировать элемент"></div><div zbuilder-element-delete class="zb-element__delete" title="Удалить элемент"></div></div></div>';
+        return '<div zbuilder-element zbuilder-element-id="'. $element['id'] .'" class="zb-element' . $class . '"' . $style . '><div zbuilder-element-content class="zb-element__content">' . $html . '</div><div zbuilder-element-panel class="zb-element__panel"><div zbuilder-element-move class="zb-element__move" title="Переместить элемент"></div><div zbuilder-element-options class="zb-element__options" title="Опции элемента"></div><div zbuilder-element-edit class="zb-element__edit" title="Редактировать элемент"></div><div zbuilder-element-copy class="zb-element__copy" title="Копировать элемент"></div><div zbuilder-element-delete class="zb-element__delete" title="Удалить элемент"></div></div></div>';
     }
 
     public function addElementLayout($html,$element) {
@@ -216,7 +216,7 @@ class zbuilder extends cmsFrontend {
 
     public function addEditorBlockLayout($html,$block) {
         $class = $this->prepareMainBlockClass($block);
-        return '<div zbuilder-block zbuilder-block-id="'. $block['id'] .'" class="blocks__item blocks__item_'. $block['bind'] . $class . ' zb-block"><div zbuilder-block-content class="zb-block__content">' . $html . '</div><div zbuilder-block-panel class="zb-block__panel"><div zbuilder-block-move class="zb-block__move" title="Переместить блок"></div><div zbuilder-block-options class="zb-block__options" title="Опции блока"></div><div zbuilder-block-delete class="zb-block__remove" title="Удалить блок"></div></div></div>';
+        return '<div zbuilder-block zbuilder-block-id="'. $block['id'] .'" class="blocks__item blocks__item_'. $block['bind'] . $class . ' zb-block"><div zbuilder-block-content class="zb-block__content">' . $html . '</div><div zbuilder-block-panel class="zb-block__panel"><div zbuilder-block-move class="zb-block__move" title="Переместить блок"></div><div zbuilder-block-options class="zb-block__options" title="Опции блока"></div><div zbuilder-block-copy class="zb-block__copy" title="Копировать блок"></div><div zbuilder-block-delete class="zb-block__remove" title="Удалить блок"></div></div></div>';
     }
 
     public function addEditorBlocksLayout($html,$bind) {
@@ -285,6 +285,9 @@ class zbuilder extends cmsFrontend {
             $this->deleteElementBind($element_bind['id']);
         }
 
+        //удалим фотки, если такие есть в опциях блока
+        $this->deleteElementImages($block_bind['options']);
+
         //удалим саму привязку блока
         $this->model->deleteBlockBind($bind_id);
     }
@@ -315,6 +318,9 @@ class zbuilder extends cmsFrontend {
         }
         if($images){
             foreach ($images as $image){
+                if($this->isImageUsedSecondly($image)){
+                    continue;
+                }
                 $files = $this->model->filterEqual('name',$image)->get('uploaded_files');
                 if($files){
                     foreach ($files as $file){
@@ -325,6 +331,27 @@ class zbuilder extends cmsFrontend {
                 }
             }
         }
+    }
+
+    public function isImageUsedSecondly($image) {
+
+        $used = 0;
+        $used_in_elements_data = $this->model->filterLike('data','%' . $image . '%')
+                ->get('zbuilder_elements_bind');
+        if($used_in_elements_data){
+            $used = $used + count($used_in_elements_data);
+        }
+        $used_in_elements_options = $this->model->filterLike('options','%' . $image . '%')
+                ->get('zbuilder_elements_bind');
+        if($used_in_elements_options){
+            $used = $used + count($used_in_elements_options);
+        }
+        $used_in_blocks_options = $this->model->filterLike('options','%' . $image . '%')
+                ->get('zbuilder_blocks_bind');
+        if($used_in_blocks_options){
+            $used = $used + count($used_in_blocks_options);
+        }
+        return ($used > 1);
     }
 
     public function hasForm($type,$prefix) {
@@ -390,11 +417,13 @@ class zbuilder extends cmsFrontend {
             block_delete_url: '<?php echo href_to('zbuilder', 'block_delete'); ?>',
             block_options_url: '<?php echo href_to('zbuilder', 'block_options'); ?>',
             block_rerender_url: '<?php echo href_to('zbuilder', 'block_rerender'); ?>',
+            block_copy_url: '<?php echo href_to('zbuilder', 'block_copy'); ?>',
             element_edit_url: '<?php echo href_to('zbuilder', 'element_edit'); ?>',
             element_rerender_url: '<?php echo href_to('zbuilder', 'element_rerender'); ?>',
             element_add_url: '<?php echo href_to('zbuilder', 'element_add'); ?>',
             element_delete_url: '<?php echo href_to('zbuilder', 'element_delete'); ?>',
-            element_options_url: '<?php echo href_to('zbuilder', 'element_options'); ?>'
+            element_options_url: '<?php echo href_to('zbuilder', 'element_options'); ?>',
+            element_copy_url: '<?php echo href_to('zbuilder', 'element_copy'); ?>',
         });
         </script>
         <?php

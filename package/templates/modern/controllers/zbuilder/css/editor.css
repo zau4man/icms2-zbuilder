@@ -100,6 +100,9 @@
 [zbuilder-element-options]{
     background-image: url('../images/options.png');
 }
+[zbuilder-element-copy]{
+    background-image: url('../images/copy.png');
+}
 [zbuilder-blocks]{
     min-width: 20px;
     min-height: 20px;
@@ -181,6 +184,9 @@
 }
 [zbuilder-block-options]{
     background-image: url('../images/options.png');
+}
+[zbuilder-block-copy]{
+    background-image: url('../images/copy.png');
 }
 .zbuilder-chosen-element, .zbuilder-chosen-block{
     background: #ccc;
