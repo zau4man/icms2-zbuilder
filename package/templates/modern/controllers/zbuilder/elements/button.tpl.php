@@ -1,0 +1,1 @@
+<?php if(!empty($text)){ ?><a class="btn {type} {size} {block}" href="{url}" role="button">{text}</a><?php }

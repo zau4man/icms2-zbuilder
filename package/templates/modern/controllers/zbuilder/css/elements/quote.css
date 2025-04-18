@@ -1,0 +1,7 @@
+.block__element__quote blockquote {
+    border-left: none;
+    margin: 0;
+}
+.block__element__quote blockquote img {
+    margin-bottom: 10px;
+}

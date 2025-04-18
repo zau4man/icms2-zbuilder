@@ -1,0 +1,1 @@
+<?php if(!empty($text)){ echo string_replace_svg_icons($text); }

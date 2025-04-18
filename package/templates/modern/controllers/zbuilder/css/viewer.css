@@ -1,0 +1,36 @@
+.blocks__item + .blocks__item{
+    margin-top: 2rem;
+}
+.blocks__item_fullwidth{
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+body{
+    overflow-x: hidden;
+}
+h1 span, h2 span, h3 span, h4 span, h5 span, h6 span {
+    color: var(--primary);
+}
+.toned_black .container_bg{
+    position: relative;
+}
+.toned_black .container_bg::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: rgba(29, 36, 49, 0.8);
+    z-index: 1;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.toned_black .container_bg > div{
+    position: relative;
+    z-index: 2;
+    color: #fff;
+}

@@ -1,0 +1,38 @@
+.listicon-list{
+    max-width: 568px;
+    flex-grow: 1;
+}
+.listicon-list__item{
+    display: flex;
+    padding: 12px 0;
+    align-items: center;
+    position: relative;
+}
+.listicon-list__icon{
+    font-size: 58px;
+    width: 58px;
+    height: 58px;
+    flex: 0 0 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.listicon-list__title{
+    margin-left: 22px;
+    font-size: 120%;
+    font-weight: 500;
+}
+.listicon-list__title span{
+    font-size: 200%;
+    font-weight: 700;
+    color: var(--primary);
+}
+.listicon-list__item + .listicon-list__item::before{
+        position: absolute;
+        display: block;
+        content:'';
+        right: 0;
+        left: 86px;
+        top: 0;
+        border-top: 1px solid rgba(255,255,255, 0.1);
+    }
